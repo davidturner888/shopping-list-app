@@ -9,21 +9,18 @@ function App() {
 
   const API = "http://localhost:5080/shopping-list-app/backend/index.php";
 
-  // Load stores
   const loadStores = async () => {
     const res = await fetch(API);
     const data = await res.json();
     setStores(data);
   };
 
-  // Load items
   const loadItems = async (storeId) => {
     const res = await fetch(`${API}?store_id=${storeId}`);
     const data = await res.json();
     setItems(data);
   };
 
-  // Add store
   const addStore = async () => {
     await fetch(API, {
       method: "POST",
@@ -34,7 +31,6 @@ function App() {
     loadStores();
   };
 
-  // Add item
   const addItem = async () => {
     await fetch(`${API}?store_id=${selectedStore}`, {
       method: "POST",
@@ -45,13 +41,11 @@ function App() {
     loadItems(selectedStore);
   };
 
-  // Delete item
   const deleteItem = async (id) => {
     await fetch(`${API}?item_id=${id}`, { method: "DELETE" });
     loadItems(selectedStore);
   };
 
-  // Toggle check
   const toggleItem = async (item) => {
     await fetch(`${API}?item_id=${item.id}`, {
       method: "PUT",
@@ -66,10 +60,9 @@ function App() {
   }, []);
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{ padding: "20px", fontFamily: "Arial" }}>
       <h1>Shopping List App</h1>
 
-      {/* Add Store */}
       <input
         placeholder="New store"
         value={newStore}
@@ -77,7 +70,6 @@ function App() {
       />
       <button onClick={addStore}>Add Store</button>
 
-      {/* Store List */}
       <h2>Stores</h2>
       {stores.map((store) => (
         <div key={store.id}>
@@ -92,7 +84,6 @@ function App() {
         </div>
       ))}
 
-      {/* Items */}
       {selectedStore && (
         <>
           <h2>Items</h2>
@@ -115,7 +106,7 @@ function App() {
               >
                 {item.name}
               </span>
-              <button onClick={() => deleteItem(item.id)}>X</button>
+              <button onClick={() => deleteItem(item.id)}>Delete</button>
             </div>
           ))}
         </>
